@@ -1,20 +1,12 @@
 #include <original.h>
 #include <Servo.h> 
-
 Servo myservo8;
 Servo myservo9;
 int tri,stalkon = 1,go_on,roton,di,pos = 0,meassurement[10],size,go_bak;
 unsigned int back;
 int left_on = 0,rit_on=0;
-
 byte inByte;
 boolean received = false; 
-
-const int pingPin = 44;
-const int echoPin = 45;
-
-
-
 UDOO *regler=copypoint();
 
 void setup() {
@@ -24,20 +16,14 @@ void setup() {
   Init_PIOC_Interrupt();
   myservo8.attach(A8);
   myservo9.attach(A9);
-  pinMode(echoPin, INPUT);
-  pinMode(pingPin, OUTPUT);
   Serial.begin(115200);
   delay(100);
-  //Serial.println("start");
-  
 }
 
 void loop() {
   Serial.flush();
-  
   byte msg[10];
   int count = 0;
-  
   while (Serial.available() > 0) {
     
     byte inByte = (byte)Serial.read();
@@ -83,40 +69,7 @@ void loop() {
       
       
     }
-    if(msg[0]=='s'){//reading sonar data
-      
-      for(int times=0 ;times<=9;)
-    {
-    long duration,distance,inches,cm;
-    digitalWrite(pingPin,LOW);
-    delayMicroseconds(2);
-    digitalWrite(pingPin,HIGH);
-    delayMicroseconds(10);
-    digitalWrite(pingPin,LOW);
-
-    duration =pulseIn(echoPin,HIGH);
-    distance=(duration/2)/29;
-    if (distance!=0){
-    meassurement[times]=distance;
-    times++;
-    }
-    
-
-    delay(100);
-    }
-    for(int i=0 ; i<(size-1); i++)
-    { for(int o=0; o<(size-(i+1)); o++){
-          if(meassurement[0]>meassurement[0+1]){
-              int t=meassurement[0];
-              meassurement[0]=meassurement[0+1];
-              meassurement[0+1]=t;
-            }
-        }
-    }
-    Serial.print(meassurement[5]);
-    
-      
-    }
+ 
     if ((msg[0]) ==  'l') {
       
       left_on = 1;
@@ -135,11 +88,6 @@ void loop() {
       ADC_IE();
       
     } 
-
-  
-  
-  
-  
  received=false;
  
  }
