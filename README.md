@@ -1,5 +1,3 @@
-# Hello,
-
 
 Step-1:
     To do this project you just need to copy the arduino_code file and paste in the arduino IDE.
